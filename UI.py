@@ -1,33 +1,35 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import extra_streamlit_components as stx
-import psycopg2
-import psycopg2.extras
+import asyncio
+import asyncpg
 
 dsn = "postgresql://eh5b17:xau_h6oA2zsTsNzOhau4F6OIMc1zm5iIbRsT1@us-east-1.sql.xata.sh/hackathon:main?sslmode=require"
 
-def obtener_proveedores():
-    conn = psycopg2.connect(dsn)
-    cursor = conn.cursor()
+async def obtener_proveedores():
+    conn = await asyncpg.connect(dsn)
+    
     query = "SELECT razon FROM supersociedades;"
-    cursor.execute(query)
-    resultados = [fila[0].upper() for fila in cursor.fetchall()]
-    cursor.close()
-    conn.close()
+    rows = await conn.fetch(query)
+    
+    resultados = [row['razon'].upper() for row in rows]
+    
+    await conn.close()
+    
     return resultados
 
-def consultar_proveedor(razon):
-    conn = psycopg2.connect(dsn)
-    cursor = conn.cursor()
-    query = f"SELECT * FROM supersociedades where razon = '{razon.lower()}';"
-    cursor.execute(query)
-    infoProveedor = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return infoProveedor
+async def consultar_proveedor(razon):
+    conn = await asyncpg.connect(dsn)
+    
+    query = "SELECT * FROM supersociedades WHERE razon = $1;"
+    info_proveedor = await conn.fetch(query, razon.lower())
+    
+    await conn.close()
+    
+    return info_proveedor
 
 if "proveedores" not in st.session_state:
-    st.session_state.proveedores = obtener_proveedores()
+    st.session_state.proveedores = asyncio.run(obtener_proveedores())
 
 proveedores = st.session_state.proveedores
 
@@ -49,7 +51,7 @@ st.write(f"Opción seleccionada: {st.session_state.selected_proveedor}")
 
 if selected != "Menú":
 
-    st.session_state.info_selected_proveedor = consultar_proveedor(st.session_state.selected_proveedor)
+    st.session_state.info_selected_proveedor = asyncio.run(consultar_proveedor(st.session_state.selected_proveedor))
 
     tabs = st.tabs(["Información general", 
                 "Información financiera", 
