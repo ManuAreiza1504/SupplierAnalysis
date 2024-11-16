@@ -1,3 +1,4 @@
+streamlit
 scikit-learn
 streamlit-option-menu
 extra-streamlit-components
