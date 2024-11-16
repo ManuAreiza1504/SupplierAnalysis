@@ -34,8 +34,8 @@ def consultar_proveedor(razon):
     conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database)
     
     cursor = conn.cursor()
-    query = f"SELECT * FROM supersociedades WHERE razon = {razon.lower()};"
-    cursor.execute(query)
+    query = "SELECT * FROM supersociedades WHERE razon = %s;"
+    cursor.execute(query, (razon.lower(),))
     
     info_proveedor = cursor.fetchall()
     
@@ -66,7 +66,7 @@ st.write(f"Opción seleccionada: {st.session_state.selected_proveedor}")
 
 if selected != "Menú":
 
-    st.session_state.info_selected_proveedor = consultar_proveedor(st.session_state.selected_proveedor)
+    st.session_state.info_selected_proveedor = consultar_proveedor(st.session_state.selected_proveedor.lower())
 
     tabs = st.tabs(["Información general", 
                 "Información financiera", 
