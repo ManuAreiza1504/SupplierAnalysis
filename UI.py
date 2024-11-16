@@ -7,10 +7,18 @@ import extra_streamlit_components as stx
 # import asyncpg
 import pg8000
 
-dsn = "postgresql://eh5b17:xau_h6oA2zsTsNzOhau4F6OIMc1zm5iIbRsT1@us-east-1.sql.xata.sh/hackathon:main?sslmode=require"
+# dsn = "postgresql://eh5b17:xau_h6oA2zsTsNzOhau4F6OIMc1zm5iIbRsT1@us-east-1.sql.xata.sh/hackathon:main?sslmode=require"
+
+user = 'eh5b17'
+password = 'xau_h6oA2zsTsNzOhau4F6OIMc1zm5iIbRsT1'
+host = 'us-east-1.sql.xata.sh'
+port = 5432  # puerto por defecto para PostgreSQL
+database = 'hackathon'
+schema = 'main'  # este parámetro es opcional dependiendo de cómo uses el esquema
+sslmode = 'require'
 
 def obtener_proveedores():
-    conn = pg8000.connect(dsn)
+    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database, sslmode=sslmode)
     
     cursor = conn.cursor()
     query = "SELECT razon FROM supersociedades;"
@@ -23,7 +31,7 @@ def obtener_proveedores():
     return resultados
 
 def consultar_proveedor(razon):
-    conn = pg8000.connect(dsn)
+    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database, sslmode=sslmode)
     
     cursor = conn.cursor()
     query = "SELECT * FROM supersociedades WHERE razon = %s;"
