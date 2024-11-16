@@ -1,3 +1,4 @@
+scikit-learn
 streamlit-option-menu
 extra-streamlit-components
 psycopg2

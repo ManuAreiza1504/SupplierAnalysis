@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import extra_streamlit_components as stx
 import psycopg2
+import sklearn
 
 dsn = "postgresql://eh5b17:xau_h6oA2zsTsNzOhau4F6OIMc1zm5iIbRsT1@us-east-1.sql.xata.sh/hackathon:main?sslmode=require"
 
