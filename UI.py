@@ -34,8 +34,8 @@ def consultar_proveedor(razon):
     conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database)
     
     cursor = conn.cursor()
-    query = f"SELECT * FROM supersociedades WHERE razon = {razon};"
-    cursor.execute(query, (razon.lower(),))
+    query = f"SELECT * FROM supersociedades WHERE razon = {razon.lower()};"
+    cursor.execute(query)
     
     info_proveedor = cursor.fetchall()
     
