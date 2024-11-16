@@ -1,4 +1,2 @@
-libpq-dev
-psycopg2-binary
+psycopg2
 sqlalchemy
-psycopg2._psycopg
