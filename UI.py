@@ -18,7 +18,7 @@ schema = 'main'  # este parámetro es opcional dependiendo de cómo uses el esqu
 sslmode = 'require'
 
 def obtener_proveedores():
-    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database, sslmode=sslmode)
+    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database)
     
     cursor = conn.cursor()
     query = "SELECT razon FROM supersociedades;"
@@ -31,7 +31,7 @@ def obtener_proveedores():
     return resultados
 
 def consultar_proveedor(razon):
-    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database, sslmode=sslmode)
+    conn = pg8000.connect(user=user, password=password, host=host, port=port, database=database)
     
     cursor = conn.cursor()
     query = "SELECT * FROM supersociedades WHERE razon = %s;"
